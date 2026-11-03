@@ -1,0 +1,159 @@
+SmpCore - version boutique LureCoins
+====================================
+
+CONTENU DU DOSSIER
+------------------
+SmpCore-0.1.0.jar  -> le plugin à mettre dans le serveur
+config.yml         -> configuration (grades, avantages, prix, clés)
+messages.yml       -> textes (menus, annonces, messages LureCoins)
+TEBEX-COINS.md     -> packs de LureCoins et tarifs prêts pour Tebex
+
+INSTALLATION
+------------
+1. Arrête complètement le serveur (ne pas utiliser /reload).
+2. Remplace plugins/SmpCore/SmpCore-0.1.0.jar par celui de ce dossier.
+3. Remplace plugins/SmpCore/config.yml par celui de ce dossier.
+4. Remplace plugins/SmpCore/messages.yml par celui de ce dossier.
+5. Redémarre le serveur.
+
+NOTE : config.yml et messages.yml ne sont jamais écrasés automatiquement par le
+plugin. Si tu préfères garder tes anciens fichiers, ajoute au minimum :
+  - config.yml  : le bloc "boutique.keys" et les blocs "advantages" à jour
+  - messages.yml: le bloc "coins", la clé "coins.thanks" et les clés
+                  "boutique.key-*"
+Le plus simple reste de remplacer les deux fichiers fournis : ils contiennent
+déjà tous les grades, prix, couleurs et textes actuels.
+
+ATTENTION : les soldes de LureCoins sont dans plugins/SmpCore/coins.yml.
+Ne supprime pas ce fichier lors de la mise à jour.
+
+COMMANDES
+---------
+/coin                          -> affiche ton solde de LureCoins
+/coin give <joueur> <montant>  -> crédite un joueur (Tebex ou admin)
+/coins et /lurecoin            -> alias de /coin
+/smpcore coins add <joueur> <montant>
+/smpcore coins remove <joueur> <montant>
+/smpcore coins set <joueur> <montant>
+/boutique                      -> boutique : Grades, Clés, Boosts
+/rankup                        -> achat du grade suivant (argent IG ou LureCoins)
+/trade <joueur>                -> proposer un échange (objets, argent, XP)
+/trade accepter [joueur]       -> accepter une demande
+/trade refuser [joueur]        -> refuser une demande
+/trade annuler                 -> annuler l'échange ou la demande envoyée
+/trade argent <montant>        -> proposer de l'argent (0 pour retirer)
+/trade xp <niveaux>            -> proposer des niveaux d'XP (0 pour retirer)
+/smpcore reload                -> recharge config.yml et messages.yml
+
+Après /coin give, tout le serveur voit :
+  Merci <joueur> d'avoir acheté <montant> LureCoins pour soutenir le serveur !
+
+BOUTIQUE - CLES
+---------------
+Un clic achète immédiatement la clé (pas d'écran de confirmation) :
+
+  LureBox     x1 =  700    x3 = 1800 (-14%)    x5 = 3000 (-14%)
+  SpawnerBox  x1 =  900    x3 = 2500 ( -7%)    x5 = 4000 (-11%)
+
+Icônes : LureBox = cœur de la mer enchanté, SpawnerBox = tripwire hook
+enchanté (config.yml > boutique.keys > material et glow).
+
+Le pourcentage de promo est calculé automatiquement à partir du prix unitaire.
+Modifie les prix dans config.yml > boutique.keys, pas dans le code.
+
+Le plugin exécute en console :
+  /crates give physical <crate> <quantité> <joueur>
+avec crate = LureBox ou SpawnerBox (config.yml > boutique.keys > crate).
+
+Syntaxe LureCrates (CrazyCrates renommé) vérifiée :
+  /crates give <virtual|physical> <crate> <amount> <player>
+L'ordre est donc bien : physical, nom du crate, quantité, joueur.
+Le nom du crate correspond au fichier dans plugins/LureCrates/crates/
+(ex. LureBox.yml -> crate "LureBox").
+
+Chaque achat diffuse dans le chat :
+  <préfixe> <joueur> vient d'acheter <quantité>x <clé> pour <montant> LureCoins !
+
+TRADE
+-----
+/trade <joueur> propose un échange. Le destinataire accepte avec
+/trade accepter [joueur] ou refuse avec /trade refuser [joueur].
+La demande est automatiquement refusée après 3 minutes (config :
+trade.request-timeout-seconds = 180). Un anti-spam de 5 secondes empêche
+d'enchaîner les demandes (trade.request-cooldown-seconds).
+
+Le GUI d'échange comporte :
+- 9 slots d'objets par joueur (dépose/retire librement tes objets) ;
+- un bouton Argent (or) et un bouton XP (fiole) par joueur ;
+- un bouton Confirmer par joueur et un bouton Annuler ;
+- en bas à droite, deux indicateurs qui montrent qui a confirmé et qui attend.
+
+Cliquer sur l'item Argent ou XP ferme le menu et demande la valeur dans le chat.
+Formats acceptés : 1000, 1 000, 1K, 10K, 1M, 1B, 1T (K = milliers,
+M = millions, B = milliards, T = billions), avec virgule ou point décimal
+(ex. 1,5K = 1500). Tape "annuler" pour revenir au menu. La saisie expire
+après 60 secondes (trade.input-timeout-seconds).
+
+Au survol de l'item Argent, la lore affiche le solde d'argent du joueur
+concerné. Au survol de l'item XP, elle affiche ses niveaux disponibles.
+
+Les deux joueurs doivent confirmer. Toute modification de l'offre retire
+les confirmations. Si un joueur ferme le menu, l'échange est annulé et
+les objets sont rendus.
+
+L'argent passe par Vault (Essentials) : les deux soldes sont vérifiés avant
+le transfert. L'XP s'échange en niveaux. Aucun des deux côtés n'est obligé
+de proposer quelque chose.
+
+Désactiver une partie de l'échange dans config.yml :
+  trade.money-enabled: false   (pas d'argent)
+  trade.xp-enabled: false      (pas d'XP)
+
+BOUTIQUE - GRADES
+-----------------
+  Héros    500 LureCoins
+  Légende 1500 LureCoins
+  Suprême 2250 LureCoins
+  Divin   2700 LureCoins
+
+Achat avec confirmation, puis application du groupe LuckPerms. Un grade ne peut
+pas être sauté : il faut posséder le précédent. Aventurier est le grade de
+départ. Les prix en argent IG restent dans rankup.grades.
+
+TEBEX
+-----
+Commande du package de LureCoins (à exécuter en console) :
+  /coin give {username} <montant>
+
+Exemple pour un pack de 3000 LureCoins :
+  /coin give {username} 3000
+
+Le joueur doit s'être connecté au moins une fois sur le serveur. Voir
+TEBEX-COINS.md pour les paliers conseillés et les tests.
+
+TESTS APRES REDEMARRAGE
+-----------------------
+1. /coin give <ton_pseudo> 3000  -> solde crédité + annonce dans le chat
+2. /coin                         -> solde à jour
+3. /boutique > Clés              -> 6 offres et les promos affichées
+4. Acheter LureBox x1            -> clé reçue + annonce chat
+5. Vérifier que la commande /crates fonctionne sur le serveur
+6. /rankup                       -> toujours fonctionnel
+7. /trade <un_second_joueur>     -> demande reçue par l'autre joueur
+8. /trade accepter               -> GUI ouvert chez les deux joueurs
+9. Déposer un objet + /trade argent 100 + /trade xp 2, confirmer des deux côtés
+10. Vérifier les objets, l'argent et les niveaux échangés
+11. Refaire un essai puis fermer le menu : objets rendus et échange annulé
+12. Laisser une demande sans réponse 3 min -> refus automatique
+
+EN CAS DE PROBLEME
+------------------
+- /boutique > Clés affiche "Cette offre n'est pas disponible." :
+  le plugin Crates n'expose pas /crates, ou le crate n'a pas le bon nom.
+  Vérifie le nom exact des crates (LureBox / SpawnerBox) et adapte
+  config.yml > boutique.keys > crate.
+- Clé achetée mais non reçue : regarde la console, la commande crates
+  exécutée y est visible en cas d'erreur. Les LureCoins sont remboursés si
+  la commande échoue.
+- Solde perdu après mise à jour : vérifie que coins.yml n'a pas été supprimé.
+- Envoie le log de démarrage + plugins/SmpCore/config.yml + messages.yml.

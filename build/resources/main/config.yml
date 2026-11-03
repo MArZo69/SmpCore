@@ -1,0 +1,123 @@
+# ---------------------------------------------------------------
+#  LureSMP - SmpCore - config.yml
+#  Après modification : /smpcore reload
+# ---------------------------------------------------------------
+
+currency-symbol: "$"
+
+rankup:
+  announce: true
+
+  grades:
+    - id: default
+      display: "<#7C3AED>[<#A78BFA>Aventurier</#A78BFA><#7C3AED>]</#7C3AED>"
+      price: 0
+      advantages:
+        - "<#7C3AED>• <white>Limite de 2 homes"
+        - "<#7C3AED>• <white>Limite de 1 commande /orders"
+        - "<#7C3AED>• <white>Limite de 5 objets au /Ah"
+        - "<#7C3AED>• <white>Préfixe <#7C3AED>[</#7C3AED><#A78BFA>Aventurier</#A78BFA><#7C3AED>]</#7C3AED>"
+
+    - id: heros
+      display: "<#8B5CF6>[<#C4B5FD>Héros</#C4B5FD><#8B5CF6>]</#8B5CF6>"
+      price: 500000
+      advantages:
+        - "<#8B5CF6>• <white>Hérite des avantages Aventurier"
+        - "<#8B5CF6>• <white>Limite de 3 homes"
+        - "<#8B5CF6>• <white>Limite de 2 commandes /orders"
+        - "<#8B5CF6>• <white>Limite de 7 objets au /Ah"
+        - "<#8B5CF6>• <white>Accès aux /tpahere"
+        - "<#8B5CF6>• <white>Préfixe <#8B5CF6>[</#8B5CF6><#C4B5FD>Héros</#C4B5FD><#8B5CF6>]</#8B5CF6>"
+
+    - id: legende
+      display: "<#A855F7>[<#D8B4FE><bold>Légende</bold></#D8B4FE><#A855F7>]</#A855F7>"
+      price: 1500000
+      advantages:
+        - "<#A855F7>• <white>Hérite des avantages Héros"
+        - "<#A855F7>• <white>Limite de 4 homes"
+        - "<#A855F7>• <white>Limite de 3 commandes /orders"
+        - "<#A855F7>• <white>Limite de 9 objets au /Ah"
+        - "<#A855F7>• <white>Accès aux /ec"
+        - "<#A855F7>• <white>Préfixe <#A855F7>[</#A855F7><#D8B4FE><bold>Légende</bold></#D8B4FE><#A855F7>]</#A855F7>"
+
+    - id: supreme
+      display: "<#C026D3>[<#F0ABFC><bold>✦ Suprême ✦</bold></#F0ABFC><#C026D3>]</#C026D3>"
+      price: 5000000
+      advantages:
+        - "<#C026D3>• <white>Hérite des avantages Légende"
+        - "<#C026D3>• <white>Limite de 5 homes"
+        - "<#C026D3>• <white>Limite de 4 commandes /orders"
+        - "<#C026D3>• <white>Limite de 12 objets au /Ah"
+        - "<#C026D3>• <white>Accès aux /feed"
+        - "<#C026D3>• <white>Préfixe <#C026D3>[</#C026D3><#F0ABFC><bold>✦ Suprême ✦</bold></#F0ABFC><#C026D3>]</#C026D3>"
+
+    - id: divin
+      display: "<#E879F9>[<#FAE8FF><bold>✦ Divin ✦</bold></#FAE8FF><#E879F9>]</#E879F9>"
+      price: 15000000
+      advantages:
+        - "<#E879F9>• <white>Hérite des avantages Suprême"
+        - "<#E879F9>• <white>Permission de homes multiples Divin"
+        - "<#E879F9>• <white>Limite de 6 homes"
+        - "<#E879F9>• <white>Limite de 5 commandes /orders"
+        - "<#E879F9>• <white>Limite de 15 objets au /Ah"
+        - "<#E879F9>• <white>Accès aux /hat"
+        - "<#E879F9>• <white>Accès aux /repairall avec cooldown de 4h"
+        - "<#E879F9>• <white>Préfixe <#E879F9>[</#E879F9><#FAE8FF><bold>✦ Divin ✦</bold></#FAE8FF><#E879F9>]</#E879F9>"
+
+# Les LureCoins sont crédités par Tebex avec :
+# /coin give <joueur> <montant>
+lurecoin:
+  name: "LureCoins"
+
+# /trade : échange d'objets, d'argent et de niveaux d'XP.
+trade:
+  # Délai avant qu'une demande d'échange soit automatiquement refusée.
+  request-timeout-seconds: 180
+  # Anti-spam : délai minimum entre deux demandes envoyées par le même joueur.
+  request-cooldown-seconds: 5
+  # Délai pour saisir un montant / un nombre de niveaux dans le chat.
+  input-timeout-seconds: 60
+  # Autorise l'échange d'argent (économie Vault / Essentials).
+  money-enabled: true
+  # Autorise l'échange de niveaux d'XP.
+  xp-enabled: true
+
+# Prix de la boutique /boutique.
+boutique:
+  grades:
+    heros: 500
+    legende: 1500
+    supreme: 2250
+    divin: 2700
+
+  # Clés vendues dans /boutique.
+  # La commande exécutée est :
+  #   /crates give physical <crate> <quantité> <joueur>
+  # Le % de promo est calculé automatiquement à partir du prix unitaire.
+  # material = icône affichée ; glow: true = effet enchanté.
+  keys:
+    - id: lurebox
+      display: "<#A78BFA>LureBox</#A78BFA>"
+      crate: "LureBox"
+      material: HEART_OF_THE_SEA
+      glow: true
+      packages:
+        - quantity: 1
+          price: 700
+        - quantity: 3
+          price: 1800
+        - quantity: 5
+          price: 3000
+
+    - id: spawnerbox
+      display: "<#F0ABFC>SpawnerBox</#F0ABFC>"
+      crate: "SpawnerBox"
+      material: TRIPWIRE_HOOK
+      glow: true
+      packages:
+        - quantity: 1
+          price: 900
+        - quantity: 3
+          price: 2500
+        - quantity: 5
+          price: 4000

@@ -1,0 +1,48 @@
+name: SmpCore
+version: '0.1.0'
+main: fr.smp.core.SmpCore
+api-version: '26.2'
+description: Coeur du serveur SMP - /rankup (et bientôt /sell, /worth, /sellmulti)
+depend: [Vault, LuckPerms]
+softdepend: [Essentials]
+
+commands:
+  rankup:
+    description: Acheter le grade suivant avec ton argent
+    usage: /<command> [confirm]
+    permission: smpcore.rankup
+  smpcore:
+    description: Administration de SmpCore
+    usage: /<command> reload | /<command> grant <joueur> <grade> | /<command> coins <add|remove|set> <joueur> <montant>
+    permission: smpcore.admin
+  coin:
+    description: Consulter ou créditer les LureCoins
+    usage: /<command> [balance] | /<command> give <joueur> <montant>
+    permission: smpcore.coins
+    aliases: [coins, lurecoin]
+  boutique:
+    description: Ouvrir la boutique du serveur
+    usage: /<command>
+    permission: smpcore.boutique
+  trade:
+    description: Échanger des objets, de l'argent et de l'XP
+    usage: /<command> <joueur> | accepter [joueur] | refuser [joueur] | annuler | argent <montant> | xp <niveaux>
+    permission: smpcore.trade
+    aliases: [echange]
+
+permissions:
+  smpcore.rankup:
+    description: Utiliser /rankup
+    default: true
+  smpcore.admin:
+    description: Administrer SmpCore
+    default: op
+  smpcore.coins:
+    description: Consulter son solde de LureCoins
+    default: true
+  smpcore.boutique:
+    description: Utiliser la boutique
+    default: true
+  smpcore.trade:
+    description: Utiliser /trade
+    default: true
